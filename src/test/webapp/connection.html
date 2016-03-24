@@ -1,0 +1,43 @@
+<html>
+<body>
+
+<script  type="text/javascript" src="http://statics.spp.com/api/mini/protobuf/Long.min.js"></script>
+<script  type="text/javascript" src="http://statics.spp.com/api/mini/protobuf/ByteBufferAB.min.js"></script>
+<script  type="text/javascript" src="http://statics.spp.com/api/mini/protobuf/ProtoBuf.min.js"></script>
+
+<!-- Send text to websocket -->
+<input id="userInput" type="text">
+<button onclick="ws.send(document.getElementById('userInput').value)">Send</button><br/>
+<button onclick="pbsend()">Send PB</button>
+
+<!-- Results -->
+<div id="message"></div>
+
+<script>
+
+    if (typeof dcodeIO === 'undefined' || !dcodeIO.ProtoBuf) {
+        throw(new Error("ProtoBuf.js is not present. Please see www/index.html for manual setup instructions."));
+    }
+    // Initialize ProtoBuf.js
+    var ProtoBuf = dcodeIO.ProtoBuf;
+    var SearchRequest = ProtoBuf.loadProtoFile("./SearchRequest2.proto").build("SearchRequest");
+
+    function showMessage(text) {
+        document.getElementById('message').innerHTML = text;
+    }
+
+    var ws = new WebSocket('ws://' + document.location.host + '/markets');
+    showMessage ('Connecting to Biteasy server ...');
+    ws.onopen = function() { showMessage('Connected!'); };
+    ws.onclose = function() { showMessage('Lost connection'); };
+    ws.onmessage = function(msg) { showMessage(msg.data); };
+
+
+    function pbsend () {
+        var pb = new SearchRequest("SOME TEXT");
+        alert (pb)
+        ws.send (pb.toArrayBuffer());
+    }
+</script>
+</body>
+</html>
