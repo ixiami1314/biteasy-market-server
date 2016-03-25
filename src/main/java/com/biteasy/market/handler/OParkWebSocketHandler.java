@@ -33,7 +33,7 @@ public class OParkWebSocketHandler extends BaseWebSocketHandler {
     @Override
     public void onMessage(WebSocketConnection connection, byte[] msg) throws Throwable {
         System.out.println("- biteasy market server, message is " + msg.toString());
-        connection.send("主收到信息了");
+        // connection.send("主收到信息了");
         SearchRequestOuterClass.SearchRequest request = SearchRequestOuterClass.SearchRequest.parseFrom (msg);
         System.out.println("- request is " + request.getQurey());
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+             xmlns:util="http://www.springframework.org/schema/util"
+             xmlns:baans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="com.biteasy.market" />
+
+    <beans:bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <beans:property name="locations">
+            <beans:list>
+                <beans:value>classpath*:META-INF/*.properties</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
+
+    <!--
+        | ==============================================================
+        | 数据库操作及全局事务配置段
+        | ==============================================================
+        | -->
+    <jpa:repositories base-package="com.biteasy.market.repositories" />
+    <beans:bean id="dataSource" class = "com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <beans:property name="driverClass" value="${biteasy.market.jdbc.driver}" />
+        <beans:property name="jdbcUrl" value="${biteasy.market.jdbc.url}" />
+        <beans:property name="user" value="${biteasy.market.jdbc.username}" />
+        <beans:property name="password" value="${biteasy.market.jdbc.password}" />
+        <beans:property name="acquireIncrement" value="50" />
+        <beans:property name="minPoolSize" value="5" />
+        <beans:property name="maxPoolSize" value="30" />
+        <beans:property name="maxIdleTime" value="3000" />
+    </beans:bean>
+    <!--
+    <beans:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <beans:property name="packagesToScan" value="com.biteasy.market" />
+        <beans:property name="jpaVendorAdapter">
+            <beans:bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <beans:property name="showSql" value="false" />
+                <beans:property name="generateDdl" value="true" />
+                <beans:property name="databasePlatform" value="${biteasy.market.jdbc.dialect}" />
+            </beans:bean>
+        </beans:property>
+    </beans:bean>
+    <beans:bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
+    <beans:bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+    -->
+
+</beans:beans>

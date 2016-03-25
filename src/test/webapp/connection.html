@@ -30,12 +30,15 @@
     showMessage ('Connecting to Biteasy server ...');
     ws.onopen = function() { showMessage('Connected!'); };
     ws.onclose = function() { showMessage('Lost connection'); };
-    ws.onmessage = function(msg) { showMessage(msg.data); };
+    ws.onmessage = function(msg) {
+        var _req = SearchRequest.decode (msg);
+        alert (_req);
+        showMessage(_req.getQuery ());
+    };
 
 
     function pbsend () {
         var pb = new SearchRequest("SOME TEXT");
-        alert (pb)
         ws.send (pb.toArrayBuffer());
     }
 </script>
