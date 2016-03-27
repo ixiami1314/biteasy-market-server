@@ -1,68 +1,79 @@
 package com.biteasy.market.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import static javax.persistence.GenerationType.IDENTITY;
+import com.xignite.sdk.api.webservices.XigniteGlobalMetals.Models.MetalQuote;
 
 /**
  * Created by weijun on 16/3/25.
  */
-@Entity
 public class MetalMarket {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
+
     private Long id;
 
-    @Column
+
     private String Outcome;
 
-    @Column
+
     private String Message;
 
-    @Column
+
     private String Identity;
 
-    @Column
+
     private double Delay;
 
-    @Column
+
     private String Name;
 
-    @Column
+
     private String Symbol;
 
-    @Column
+
     private String Unit;
 
-    @Column
+
     private String QuoteType;
 
-    @Column
+
     private String Currency;
 
-    @Column
+
     private String Date;
 
-    @Column
+
     private String Time;
 
-    @Column
+
     private double Bid;
 
-    @Column
+
     private double Mid;
 
-    @Column
+
     private double Ask;
 
-    @Column
+
     private double Spread;
 
-    @Column
+
     private String Source;
+
+    public MetalMarket (MetalQuote quote) {
+        setOutcome (quote.Outcome);
+        setMessage(quote.Message);
+        setIdentity(quote.Identity);
+        setDelay(quote.Delay);
+        setName(quote.Name);
+        setSymbol(quote.Symbol);
+        setUnit(quote.Unit);
+        setQuoteType(quote.QuoteType);
+        setCurrency(quote.Currency);
+        setDate(quote.Date);
+        setTime(quote.Time);
+        setBid(quote.Bid);
+        setAsk(quote.Ask);
+        setSpread(quote.Spread);
+        setSource (quote.Source);
+    }
 
     public Long getId() {
         return id;

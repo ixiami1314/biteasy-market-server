@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 /**
  * Created by weijun on 16/3/25.
  */
-@Component
+@Component ("xigniteFetcher")
 public class XigniteFetcher implements Fetcher {
 
     @Autowired
@@ -25,18 +25,15 @@ public class XigniteFetcher implements Fetcher {
 
     @PostConstruct
     public void init () {
-        System.out.println ("- xignite fetcher start");
+        System.out.println("- xignite fetcher start");
     }
 
-    public void saves (MetalMarket market) {
-        repository.save (market);
-    }
-
-    public static void main (String [] args) throws Exception {
+    public void fetch () throws Exception {
         XigniteGlobalMetals metals = new XigniteGlobalMetals (API_TOKEN);
         MetalQuote[] quotes = metals.getRealTimeMetalQuotes (METALS_LIST, DOLLAR);
         for (MetalQuote quote : quotes) {
-            System.out.println (quote.Mid);
+            MetalMarket m = new MetalMarket (quote);
+            repository.save (m);
         }
     }
 }

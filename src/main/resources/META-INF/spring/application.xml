@@ -30,7 +30,8 @@
         | 数据库操作及全局事务配置段
         | ==============================================================
         | -->
-    <jpa:repositories base-package="com.biteasy.market.repositories" />
+
+    <!-- <jpa:repositories base-package="com.biteasy.market.repositories" /> -->
     <beans:bean id="dataSource" class = "com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <beans:property name="driverClass" value="${biteasy.market.jdbc.driver}" />
         <beans:property name="jdbcUrl" value="${biteasy.market.jdbc.url}" />
@@ -40,6 +41,12 @@
         <beans:property name="minPoolSize" value="5" />
         <beans:property name="maxPoolSize" value="30" />
         <beans:property name="maxIdleTime" value="3000" />
+    </beans:bean>
+    <beans:bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <beans:property name="dataSource" ref="dataSource" />
+    </beans:bean>
+    <beans:bean id="metalMarketDao" class="com.biteasy.market.repositories.MetalMarketRepository">
+        <beans:property name="jdbcTemplate" ref="jdbcTemplate" />
     </beans:bean>
     <!--
     <beans:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

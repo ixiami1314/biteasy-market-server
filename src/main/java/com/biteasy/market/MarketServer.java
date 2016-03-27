@@ -1,5 +1,6 @@
 package com.biteasy.market;
 
+import com.biteasy.market.fetcher.impl.XigniteFetcher;
 import com.biteasy.market.handler.OParkWebSocketHandler;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -12,9 +13,13 @@ import org.webbitserver.handler.StaticFileHandler;
  */
 public class MarketServer {
 
+
     public static void main (String [] args) throws Exception {
 
-        ApplicationContext ac = new ClassPathXmlApplicationContext ("classpath:/META-INF/spring/*.xml");
+        ApplicationContext ac = new ClassPathXmlApplicationContext ("classpath:/META-INF/spring/application.xml");
+
+        XigniteFetcher fetcher = (XigniteFetcher) ac.getBean("xigniteFetcher");
+        fetcher.fetch ();
 
         WebServer webServer = WebServers.createWebServer (8080)
                 .add (new StaticFileHandler("/Users/weijun/workspace-biteasy/biteasy-market-server/src/test/webapp"))
