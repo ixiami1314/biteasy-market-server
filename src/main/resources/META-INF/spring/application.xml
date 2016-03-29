@@ -30,8 +30,6 @@
         | 数据库操作及全局事务配置段
         | ==============================================================
         | -->
-
-    <!-- <jpa:repositories base-package="com.biteasy.market.repositories" /> -->
     <beans:bean id="dataSource" class = "com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <beans:property name="driverClass" value="${biteasy.market.jdbc.driver}" />
         <beans:property name="jdbcUrl" value="${biteasy.market.jdbc.url}" />
@@ -48,19 +46,17 @@
     <beans:bean id="metalMarketDao" class="com.biteasy.market.repositories.MetalMarketRepository">
         <beans:property name="jdbcTemplate" ref="jdbcTemplate" />
     </beans:bean>
+
+
     <!--
-    <beans:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <beans:property name="packagesToScan" value="com.biteasy.market" />
-        <beans:property name="jpaVendorAdapter">
-            <beans:bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <beans:property name="showSql" value="false" />
-                <beans:property name="generateDdl" value="true" />
-                <beans:property name="databasePlatform" value="${biteasy.market.jdbc.dialect}" />
-            </beans:bean>
-        </beans:property>
+        | ==============================================================
+        | 线程池配置段
+        | ==============================================================
+        | -->
+    <beans:bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <beans:property name="corePoolSize" value="5" />
+        <beans:property name="maxPoolSize" value="20" />
+        <beans:property name="queueCapacity" value="25" />
     </beans:bean>
-    <beans:bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
-    <beans:bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-    -->
 
 </beans:beans>
